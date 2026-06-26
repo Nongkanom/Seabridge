@@ -15,24 +15,13 @@ class MyBot(discord.Client):
     async def on_ready(self):
         print(f'Logged in as {self.user}')
         
+        # Initialize database tables asynchronously
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         
+        # Sync application commands globally
         await self.tree.sync()
         print("🌍 Global Slash Commands synced successfully!")
-        
-        if not self.keep_db_alive.is_running():
-            self.keep_db_alive.start()
-
-    @tasks.loop(hours=24)
-    async def keep_db_alive(self):
-        try:
-            async with engine.connect() as conn:
-                # ส่งคำสั่งเล็กๆ เพื่อเช็คสิทธิ์การเชื่อมต่อ
-                await conn.execute("SELECT 1")
-                print("💓 Database heartbeat pinged successfully to Supabase.")
-        except Exception as e:
-            print(f"⚠️ Failed to ping database: {e}")
 
 bot = MyBot()
 
