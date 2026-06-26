@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { RefreshCw, AlertCircle, Clock, CheckCircle } from "lucide-react";
 
 interface OverviewProps {

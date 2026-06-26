@@ -16,7 +16,7 @@ export default function SeabridgeSuite() {
   const [loading, setLoading] = useState(true);
   
   const [searchQuery, setSearchQuery] = useState("");
-  const [assigneeQuery, setAssigneeQuery] = useState(""); // <-- เพิ่มสเตตัสใหม่ค้นหาคนทำ
+  const [assigneeQuery, setAssigneeQuery] = useState(""); 
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedTaskIds, setSelectedTaskIds] = useState<number[]>([]);
 
@@ -74,13 +74,11 @@ export default function SeabridgeSuite() {
     }
   };
 
-  // --- CALCULATIONS (เพิ่ม Logic ค้นหาชื่อคนทำ) ---
   const filteredTasks = useMemo(() => {
     return tasks.filter(task => {
       const matchesSearch = task.task_name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = statusFilter === "All" || task.status === statusFilter;
       
-      // ตรวจสอบว่ามีชื่อสมาชิกคนใดคนหนึ่งในอาเรย์ ตรงกับคำค้นหาไหม
       const matchesAssignee = assigneeQuery === "" || task.assigned_to.some((user: any) => 
         user.name.toLowerCase().includes(assigneeQuery.toLowerCase())
       );
@@ -121,8 +119,8 @@ export default function SeabridgeSuite() {
               selectedTaskIds={selectedTaskIds}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              assigneeQuery={assigneeQuery}       // <-- ส่งไปหน้าบ้าน
-              setAssigneeQuery={setAssigneeQuery} // <-- ส่งไปหน้าบ้าน
+              assigneeQuery={assigneeQuery}       
+              setAssigneeQuery={setAssigneeQuery} 
               statusFilter={statusFilter}
               setStatusFilter={setStatusFilter}
               handleToggleSelectAll={handleToggleSelectAll}

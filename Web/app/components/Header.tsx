@@ -1,4 +1,3 @@
-import React from "react";
 import { LayoutDashboard, Database } from "lucide-react";
 
 interface HeaderProps {

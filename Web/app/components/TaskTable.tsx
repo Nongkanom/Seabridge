@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Search, Trash2, Filter, ChevronDown, User } from "lucide-react";
 
 interface DiscordUser {
@@ -21,8 +20,8 @@ interface TaskTableProps {
   selectedTaskIds: number[];
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  assigneeQuery: string;               // <-- เพิ่มเข้ามาใหม่
-  setAssigneeQuery: (query: string) => void; // <-- เพิ่มเข้ามาใหม่
+  assigneeQuery: string;              
+  setAssigneeQuery: (query: string) => void;
   statusFilter: string;
   setStatusFilter: (filter: string) => void;
   handleToggleSelectAll: () => void;
@@ -36,8 +35,8 @@ export default function TaskTable({
   selectedTaskIds,
   searchQuery,
   setSearchQuery,
-  assigneeQuery,     // <-- นำมาใช้
-  setAssigneeQuery, // <-- นำมาใช้
+  assigneeQuery,  
+  setAssigneeQuery,
   statusFilter,
   setStatusFilter,
   handleToggleSelectAll,
@@ -47,12 +46,12 @@ export default function TaskTable({
 }: TaskTableProps) {
   return (
     <div className="space-y-4">
-      {/* SEARCH / FILTER / ACTION CONTROLS */}
+      {/* --- TOOLBAR CONTROLS (SEARCH, FILTER, ACTIONS) --- */}
       <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col xl:flex-row gap-4 items-center justify-between shadow-sm">
         
-        {/* ช่องค้นหาฝั่งซ้าย (ชื่อ Task และ ชื่อคนทำ) */}
+        {/* Search Group */}
         <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto flex-1">
-          {/* 1. ค้นหาชื่อ Task */}
+          {/* Task Search Input */}
           <div className="relative w-full md:w-80">
             <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
             <input
@@ -64,7 +63,7 @@ export default function TaskTable({
             />
           </div>
 
-          {/* 2. ช่องค้นหาชื่อคนทำ (Assigned To) เพิ่มใหม่ */}
+          {/* Assignee Search Input */}
           <div className="relative w-full md:w-64">
             <User className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
             <input
@@ -77,8 +76,9 @@ export default function TaskTable({
           </div>
         </div>
 
-        {/* ปุ่ม Action และ Filter ฝั่งขวา */}
+        {/* Action Buttons & Filters */}
         <div className="flex items-center justify-end w-full xl:w-auto gap-3">
+          {/* Delete Action Button */}
           <button
             disabled={selectedTaskIds.length === 0}
             onClick={handleDeleteSelected}
@@ -92,6 +92,7 @@ export default function TaskTable({
             <span>Delete ({selectedTaskIds.length})</span>
           </button>
 
+          {/* Status Filter Dropdown */}
           <div className="relative flex items-center bg-slate-900 border border-slate-800 rounded-xl px-3 py-1">
             <Filter className="h-4 w-4 text-slate-500 mr-2" />
             <select
@@ -109,7 +110,7 @@ export default function TaskTable({
         </div>
       </div>
 
-      {/* TABLE SECTION */}
+      {/* --- DATA TABLE SECTION --- */}
       <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -133,8 +134,8 @@ export default function TaskTable({
             <tbody className="divide-y divide-slate-800/60 text-sm">
               {filteredTasks.length > 0 ? (
                 filteredTasks.map((task) => (
-                  <tr 
-                    key={task.id} 
+                  <tr
+                    key={task.id}
                     className={`hover:bg-slate-900/30 transition-colors ${
                       selectedTaskIds.includes(task.id) ? "bg-indigo-600/5 hover:bg-indigo-600/10" : ""
                     }`}
@@ -154,10 +155,10 @@ export default function TaskTable({
                         {task.assigned_to.map((user, idx) => (
                           <div key={idx} className="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-full pl-1 pr-2.5 py-0.5 text-xs text-slate-300">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img 
-                              src={user.avatar} 
-                              alt={user.name} 
-                              className="h-5 w-5 rounded-full object-cover border border-slate-700" 
+                            <img
+                              src={user.avatar}
+                              alt={user.name}
+                              className="h-5 w-5 rounded-full object-cover border border-slate-700"
                             />
                             <span>{user.name}</span>
                           </div>
